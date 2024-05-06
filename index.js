@@ -10,6 +10,8 @@
 import fs from "fs";
 import path from "path";
 import { makeDirectory } from "make-dir";
+import { LowSync } from "lowdb";
+import { JSONFileSync } from "lowdb/node";
 
 import init from "./utils/init.js";
 import cli from "./utils/cli.js";
@@ -30,6 +32,11 @@ const { clear, debug } = flags;
     process.chdir(".todo");
     fs.writeFileSync(dbTodos, `{}`);
   }
+
+  const defaultData = {
+    todos: [],
+  };
+  const db = new LowSync(new JSONFileSync(dbTodos), defaultData);
 
   debug && log(flags);
 })();
