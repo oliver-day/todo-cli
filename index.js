@@ -38,5 +38,11 @@ const { clear, debug } = flags;
   };
   const db = new LowSync(new JSONFileSync(dbTodos), defaultData);
 
+  // COMMAND: todo view OR todo ls
+  if (input.includes("view") || input.includes("ls")) {
+    const allTodos = db.data.todos;
+    console.log("allTodos", allTodos);
+  }
+
   debug && log(flags);
 })();
