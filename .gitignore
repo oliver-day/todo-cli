@@ -1,3 +1,6 @@
+# todo directory
+.todo
+
 # Logs
 logs
 *.log
