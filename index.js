@@ -45,9 +45,18 @@ const { green, red, yellow } = chalk;
   db.read();
 
   // COMMAND: todo view OR todo ls
-  if (input.includes("view") || input.includes("ls")) {
+  if (
+    input.includes("view") ||
+    input.includes("list") ||
+    input.includes("ls")
+  ) {
     const allTodos = db.data.todos;
-    console.log({ allTodos });
+    allTodos.map((todo, index) => {
+      console.log(`${chalk.dim(`${++index}`)}: ${todo.title}`);
+    });
+    console.log(
+      `\n${chalk.hex(`#fad000`).inverse(" TOTAL ")}  ${allTodos.length}\n`
+    );
   }
 
   // COMMAND: todo add
