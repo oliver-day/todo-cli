@@ -12,16 +12,20 @@ import path from "path";
 import { makeDirectory } from "make-dir";
 import { LowSync } from "lowdb";
 import { JSONFileSync } from "lowdb/node";
+import alert from "cli-alerts";
+import chalk from "chalk";
 
 import init from "./utils/init.js";
 import cli from "./utils/cli.js";
 import log from "./utils/log.js";
+import ask from "./utils/ask.js";
 
 // Database
 const dbTodos = path.join(process.cwd(), ".todo/todos.json");
 
 const { input, flags } = cli;
 const { clear, debug } = flags;
+const { green, red, yellow } = chalk;
 
 (async () => {
   init({ clear });
@@ -36,12 +40,21 @@ const { clear, debug } = flags;
   const defaultData = {
     todos: [],
   };
+  // const db = new LowSync(new JSONFileSync(".todo/todos.json"), defaultData);
   const db = new LowSync(new JSONFileSync(dbTodos), defaultData);
+  db.read();
 
   // COMMAND: todo view OR todo ls
   if (input.includes("view") || input.includes("ls")) {
     const allTodos = db.data.todos;
-    console.log("allTodos", allTodos);
+    console.log({ allTodos });
+  }
+
+  // COMMAND: todo add
+  if (input.includes("add")) {
+    const newTodo = await ask({ message: "Add a todo?" });
+    db.update(({ todos }) => todos.push({ title: newTodo }));
+    alert({ type: `success`, msg: `successfully!`, name: "ADDED" });
   }
 
   debug && log(flags);
