@@ -40,7 +40,6 @@ const { green, red, yellow } = chalk;
   const defaultData = {
     todos: [],
   };
-  // const db = new LowSync(new JSONFileSync(".todo/todos.json"), defaultData);
   const db = new LowSync(new JSONFileSync(dbTodos), defaultData);
   db.read();
 
@@ -64,6 +63,16 @@ const { green, red, yellow } = chalk;
     const newTodo = await ask({ message: "Add a todo?" });
     db.update(({ todos }) => todos.push({ title: newTodo }));
     alert({ type: `success`, msg: `successfully!`, name: "ADDED" });
+  }
+
+  // COMMAND: todo delete
+  if (
+    input.includes("delete") ||
+    input.includes("del") ||
+    input.includes("remove") ||
+    input.includes("rm")
+  ) {
+    //
   }
 
   debug && log(flags);
