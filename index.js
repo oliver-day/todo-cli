@@ -19,6 +19,8 @@ import init from "./utils/init.js";
 import cli from "./utils/cli.js";
 import log from "./utils/log.js";
 import ask from "./utils/ask.js";
+import select from "./utils/select.js";
+import to from "await-to-js";
 
 // Database
 const dbTodos = path.join(process.cwd(), ".todo/todos.json");
@@ -72,7 +74,20 @@ const { green, red, yellow } = chalk;
     input.includes("remove") ||
     input.includes("rm")
   ) {
-    //
+    const allTodos = db.data.todos;
+    const todosToDelete = await select({
+      message: "Mark todos as completed: ",
+      choices: allTodos,
+    });
+    db.data.todos = allTodos.filter(
+      (todo) => !todosToDelete.includes(todo.title)
+    );
+    db.write();
+    alert({
+      type: `success`,
+      msg: `${todosToDelete.length} todos`,
+      name: "COMPLETED",
+    });
   }
 
   debug && log(flags);
