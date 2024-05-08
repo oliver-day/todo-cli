@@ -27,6 +27,14 @@ const flags = {
 };
 
 const commands = {
+  add: { desc: `Add a new todo` },
+  view: { desc: `View or list all todos` },
+  list: { desc: `View or list all todos` },
+  ls: { desc: `View or list all todos` },
+  delete: { desc: `Delete completed todos` },
+  del: { desc: `Delete completed todos` },
+  remove: { desc: `Delete completed todos` },
+  rm: { desc: `Delete completed todos` },
   help: { desc: `Print help info` },
 };
 
